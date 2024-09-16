@@ -15,8 +15,8 @@ public class JettyRunner {
 //        TODO: SERVLET BINDING
 
         servletContextHandler.addServlet(LoginServlet.class, "/login");
-//        servletContextHandler.addServlet();
-//        servletContextHandler.addServlet();
+        servletContextHandler.addServlet();
+        servletContextHandler.addServlet();
 //
         server.setHandler(servletContextHandler);
 

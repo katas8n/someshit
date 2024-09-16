@@ -5,13 +5,13 @@ import com.example.shop.service.UserService;
 import com.example.shop.util.DBConnector;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -33,11 +33,19 @@ public class LoginServlet extends HttpServlet {
 //    get, post, patch, put, delete
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) {
-        String em = req.getParameter("email");
-        String pass = req.getParameter("password");
-
         try {
-            if(userService.authenticate(em, pass)) {
+            String email = req.getParameter("email");
+            String password = req.getParameter("password");
+            Boolean hasRemembered = Boolean.valueOf(req.getParameter("hasRemembered"));
+
+            // TODO
+            if(Arrays.stream(req.getCookies()).anyMatch(cookie -> cookie.getValue().equals(email))) return;
+
+            Cookie cookie = new Cookie("email", email);
+
+            res.addCookie(cookie);
+
+            if(userService.authenticate(email, password)) {
                 res.sendRedirect("account");
 
             }else {
@@ -48,5 +56,14 @@ public class LoginServlet extends HttpServlet {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean getCredentials(HttpServletRequest req, HttpServletResponse res) {
+        String em = req.getParameter("email");
+        String pass = req.getParameter("password");
+
+        if(em.length() < 10) return false;
+
+        return true;
     }
 }

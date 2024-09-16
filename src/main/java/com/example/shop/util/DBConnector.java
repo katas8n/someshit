@@ -16,4 +16,15 @@ public class DBConnector {
         }
         return DriverManager.getConnection(url, user, "");
     }
+
+    public static void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("ERROR.");
+                e.printStackTrace();
+            }
+        }
+    }
 }
