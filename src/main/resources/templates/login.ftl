@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Test Page</title>
-<link rel="stylesheet" type="text/css" href="/assets/test-css.css">
+<title>Login Page</title>
 </head>
-
 <body>
- <h1> Login page </h1>
- <form action="/login" method="post">
 
+<h1>Login Page</h1>
+
+<form action="/login" method="post">
     <fieldset>
-        <label for="email"> Email: </label>
-
-        <input type="text" id="email"/>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required />
     </fieldset>
 
     <fieldset>
-        <label for="password"> password: </label>
-
-        <input type="password" id="password"/>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
     </fieldset>
 
     <fieldset>
         <input value="Login" type="submit" />
     </fieldset>
 
-    <#if
- </form>
+    <#if hasError??>
+        <p style="color: red;">Invalid email or password.</p>
+    </#if>
+</form>
+
 </body>
 </html>
